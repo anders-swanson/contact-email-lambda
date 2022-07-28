@@ -1,0 +1,17 @@
+{
+  "name": "contact-email-lambda",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Anders Swanson",
+  "license": "Apache 2.0",
+  "scripts": {
+    "build": "zip -r function.zip ."
+  },
+  "dependencies": {
+    "node-fetch": "^3.2.9",
+    "nodemailer": "^6.7.7"
+  }
+}
