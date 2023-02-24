@@ -22,6 +22,14 @@ const serverError = (message) => {
         body: JSON.stringify(message)
     }
 }
+
+const toAddresses = () => {
+    let toAddresses = process.env.TO_ADDRESSES
+    if (!toAddresses) {
+        return [process.env.SMTP_USERNAME]
+    }
+    return toAddresses.split(",")
+}
  
 export const handler = async (event) => {
     const req = event.queryStringParameters
@@ -55,14 +63,17 @@ export const handler = async (event) => {
         })
         const captchaValidation = await captchaRes.json()
         if (captchaValidation.success) {
-            const mailObject = {
-                text: text,
-                from: process.env.SMTP_USERNAME,
-                to: process.env.SMTP_USERNAME,
-                subject: `New contact from ${req.email}`,
+            const addrs = toAddresses()
+            for (let i = 0; i < addrs.length; i ++) {
+                const mailObject = {
+                    text: text,
+                    from: process.env.SMTP_USERNAME,
+                    to: addrs[i],
+                    subject: `New contact from ${req.email}`,
+                }
+                const info = await transporter.sendMail(mailObject)
+                console.log("Sent Mail")
             }
-            const info = await transporter.sendMail(mailObject)
-            console.log("Sent Mail")
         } else {
             return unauthorizedRequest
         }
