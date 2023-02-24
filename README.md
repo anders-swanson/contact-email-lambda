@@ -9,7 +9,7 @@ The Lambda function validates requests using Recaptcha V2.
 |:-----|:--------:|:--------:|
 | TO_ADDRESSES            | Comma separated list of email addresses to send the contact emails to. Defaults to SMTP_USERNAME  | NO |
 | SMTP_USERNAME           | Username (email address) for "from" email user | YES |
-| SMPT_PASSWORD           | Password for "from" email user  | YES |
+| SMTP_PASSWORD           | Password for "from" email user  | YES |
 | OAUTH_CLIENTID          | Client Id for Gmail API | YES |
 | OAUTH_CLIENT_SECRET     |  Client Secret for Gmail API | YES |
 | OAUTH_REFRESH_TOKEN     | Refresh token for Gmail API | YES |
