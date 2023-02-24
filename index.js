@@ -24,11 +24,11 @@ const serverError = (message) => {
 }
 
 const toAddresses = () => {
-    let toAddresses = process.env.TO_ADDRESSES
-    if (!toAddresses) {
+    let addrs = process.env.TO_ADDRESSES
+    if (!addrs) {
         return [process.env.SMTP_USERNAME]
     }
-    return toAddresses.split(",")
+    return addrs
 }
  
 export const handler = async (event) => {
@@ -64,16 +64,14 @@ export const handler = async (event) => {
         const captchaValidation = await captchaRes.json()
         if (captchaValidation.success) {
             const addrs = toAddresses()
-            for (let i = 0; i < addrs.length; i ++) {
-                const mailObject = {
-                    text: text,
-                    from: process.env.SMTP_USERNAME,
-                    to: addrs[i],
-                    subject: `New contact from ${req.email}`,
-                }
-                const info = await transporter.sendMail(mailObject)
-                console.log("Sent Mail")
+            const mailObject = {
+                text: text,
+                from: process.env.SMTP_USERNAME,
+                to: addrs,
+                subject: `New contact from ${req.email}`,
             }
+            const info = await transporter.sendMail(mailObject)
+            console.log("Sent Mail")
         } else {
             return unauthorizedRequest
         }
